@@ -21,7 +21,7 @@ public class HBSAppMain {
 //		testGetHotelWithHighestNumberOfCustomers();
 //		testGetCustomersHavingLaundryServiceInBooking();
 //		testGetEmployeeWithHighestBookingInAHotel();
-//		testGetHotelHavingSecondHighestBooking();
+		testGetHotelHavingSecondHighestBooking();
 	}
 
 	// Start of testGetCustomersOfAHotel method
@@ -66,18 +66,18 @@ public class HBSAppMain {
 			System.out.println("Total number of hotels are: " + hotels.size());
 			System.out.println("----------------------------------");
 			System.out.println("Service type: " + service.getService_type());
-			for (Hotel h : hotels) {
+			for (Hotel hotel : hotels) {
 				index++;
 				System.out.println("Hotel Record " + index);
-				System.out.println("\t" + "id: " + h.getHotel_id());
-				System.out.println("\t" + "name: " + h.getHotel_name());
-				System.out.println("\t" + "type: " + h.getHotel_type());
-				System.out.println("\t" + "rating: " + h.getHotel_rating());
-				System.out.println("\t" + "description: " + h.getHotel_desc());
-				System.out.println("\t" + "city: " + h.getHotel_city());
-				System.out.println("\t" + "state: " + h.getHotel_state());
-				System.out.println("\t" + "phone no: " + h.getHotel_phone_no());
-				System.out.println("\t" + "state: " + h.getHotel_email_id());
+				System.out.println("\t" + "id: " + hotel.getHotel_id());
+				System.out.println("\t" + "name: " + hotel.getHotel_name());
+				System.out.println("\t" + "type: " + hotel.getHotel_type());
+				System.out.println("\t" + "rating: " + hotel.getHotel_rating());
+				System.out.println("\t" + "description: " + hotel.getHotel_desc());
+				System.out.println("\t" + "city: " + hotel.getHotel_city());
+				System.out.println("\t" + "state: " + hotel.getHotel_state());
+				System.out.println("\t" + "phone no: " + hotel.getHotel_phone_no());
+				System.out.println("\t" + "state: " + hotel.getHotel_email_id());
 				System.out.println("----------------------------------");
 			}
 		} catch (SQLException e) {
@@ -147,13 +147,15 @@ public class HBSAppMain {
 		try {
 			IHBSHotelDAO hbsHotelDAO = HBSHotelDAOFactory.getHBSHotelDAO();
 			HotelDTO hotelInfo = hbsHotelDAO.getHotelWithHighestNumberOfCustomers();
-			Hotel hotel = hotelInfo.getHotel();
+			List<Hotel> hotels = hotelInfo.getHotels();
 			int noOfCustomers = hotelInfo.getNoOfCustomers();
 			System.out.println("This method prints details of hotel with highest no of customers");
 			System.out.println("Details of the hotel is given below:");
 			System.out.println("----------------------------------");
-			System.out.println("hotel id: " + hotel.getHotel_id());
-			System.out.println("hotel name: " + hotel.getHotel_name());
+			for (Hotel hotel : hotels) {
+				System.out.println("hotel id: " + hotel.getHotel_id());
+				System.out.println("hotel name: " + hotel.getHotel_name());
+			}			
 			System.out.println("total no of customers: " + noOfCustomers);
 			System.out.println("----------------------------------");
 
@@ -217,13 +219,16 @@ public class HBSAppMain {
 		try {
 			IHBSHotelDAO hbsHotelDAO = HBSHotelDAOFactory.getHBSHotelDAO();
 			HotelDTO hotelInfo = hbsHotelDAO.getHotelHavingSecondHighestBooking();
-			Hotel hotel = hotelInfo.getHotel();
+			List<Hotel> hotels = hotelInfo.getHotels();
 			int noOfBookings = hotelInfo.getNoOfBookings();
 			System.out.println("This methiod provides details of hotes with second highest no of bookings");
 			System.out.println("Details of hotel is given below:");
 			System.out.println("----------------------------------");
-			System.out.println("hotel id: " + hotel.getHotel_id());
-			System.out.println("hotel name: " + hotel.getHotel_name());
+			
+			for (Hotel hotel : hotels) {
+				System.out.println("hotel id: " + hotel.getHotel_id());
+				System.out.println("hotel name: " + hotel.getHotel_name());
+			}			
 			System.out.println("total no of bookings: " + noOfBookings);
 			System.out.println("----------------------------------");
 

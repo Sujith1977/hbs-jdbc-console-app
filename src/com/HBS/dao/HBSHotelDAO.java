@@ -278,6 +278,7 @@ public class HBSHotelDAO implements IHBSHotelDAO {
 		String getHotelQuery = "SELECT h.hotel_id, h.hotel_name, count(hc.customer_id) noOfCustomers FROM hotel h INNER JOIN hotel_customer hc ON h.hotel_id = hc.hotel_id GROUP BY h.hotel_id ORDER BY count(hc.customer_id) desc limit 1";
 
 		Hotel hotel = new Hotel();
+		List<Hotel> hotels = new ArrayList<Hotel>();
 		HotelDTO hotelDTO = new HotelDTO();
 		int noOfCustomers = 0;
 		Connection connection = null;
@@ -303,7 +304,8 @@ public class HBSHotelDAO implements IHBSHotelDAO {
 					noOfCustomers = 0;
 				}
 			}
-			hotelDTO.setHotel(hotel);
+			hotels.add(hotel);
+			hotelDTO.setHotels(hotels);
 			hotelDTO.setNoOfCustomers(noOfCustomers);
 		} catch (SQLTimeoutException e) {
 			e.getMessage();
@@ -326,7 +328,8 @@ public class HBSHotelDAO implements IHBSHotelDAO {
 		
 		String getHotelQuery = "SELECT h.hotel_id, h.hotel_name, count(b.booking_id) totalBookings FROM booking b INNER JOIN hotel h ON b.hotel_id = h.hotel_id GROUP BY h.hotel_id ORDER BY count(b.booking_id) DESC LIMIT 1,1";
 		HotelDTO hotelDTO = new HotelDTO();
-		Hotel hotel = new Hotel();
+		Hotel hotel = new Hotel();		
+		List<Hotel> hotels = new ArrayList<Hotel>();
 		int noOfBookings = 0;
 		Connection connection = null;
 		try {
@@ -349,7 +352,8 @@ public class HBSHotelDAO implements IHBSHotelDAO {
 					noOfBookings = 0;
 				}
 			}
-			hotelDTO.setHotel(hotel);
+			hotels.add(hotel);
+			hotelDTO.setHotels(hotels);
 			hotelDTO.setNoOfBookings(noOfBookings);
 		} catch (SQLTimeoutException e) {
 			e.getMessage();

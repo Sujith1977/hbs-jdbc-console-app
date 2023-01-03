@@ -7,7 +7,6 @@ import com.HBS.entities.Service;
 
 public class HotelDTO {
 	private List<Hotel> hotels;
-	private Hotel hotel;
 	private Service service;
 	private int noOfCustomers;
 	private int noOfBookings;
@@ -28,14 +27,6 @@ public class HotelDTO {
 		this.service = service;
 	}
 
-	public Hotel getHotel() {
-		return hotel;
-	}
-
-	public void setHotel(Hotel hotel) {
-		this.hotel = hotel;
-	}
-
 	public int getNoOfCustomers() {
 		return noOfCustomers;
 	}
@@ -54,7 +45,7 @@ public class HotelDTO {
 
 	@Override
 	public String toString() {
-		return "HotelDTO [hotel=" + hotel + ", service=" + service + "]";
+		return "HotelDTO [hotel=" + hotels + ", service=" + service + "]";
 	}
 
 }
