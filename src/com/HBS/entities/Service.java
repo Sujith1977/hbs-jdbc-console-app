@@ -15,6 +15,10 @@ public class Service {
 		this.service_desc = service_desc;
 	}
 
+	public Service() {
+		super();
+	}
+
 	public long getService_id() {
 		return service_id;
 	}
