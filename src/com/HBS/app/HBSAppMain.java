@@ -3,13 +3,17 @@ package com.HBS.app;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.HBS.dao.IHBSCustomerDAO;
 import com.HBS.dao.IHBSHotelDAO;
+import com.HBS.dto.CustomerDTO;
 import com.HBS.dto.HotelDTO;
 import com.HBS.dto.RoomDTO;
+import com.HBS.entities.Booking;
 import com.HBS.entities.Customer;
 import com.HBS.entities.Hotel;
 import com.HBS.entities.Room;
 import com.HBS.entities.Service;
+import com.HBS.utils.HBSCustomerDAOFactory;
 import com.HBS.utils.HBSHotelDAOFactory;
 
 public class HBSAppMain {
@@ -19,9 +23,9 @@ public class HBSAppMain {
 //		testGetRoomOfAHotelWithHighestBooking();
 //		testGetBookingsOfACustomerInAHotel();
 //		testGetHotelWithHighestNumberOfCustomers();
-//		testGetCustomersHavingLaundryServiceInBooking();
+		testGetCustomersHavingLaundryServiceInBooking();
 //		testGetEmployeeWithHighestBookingInAHotel();
-		testGetHotelHavingSecondHighestBooking();
+//		testGetHotelHavingSecondHighestBooking();
 	}
 
 	// Start of testGetCustomersOfAHotel method
@@ -112,35 +116,40 @@ public class HBSAppMain {
 	}
 	// End of testGetRoomOfAHotelWithHighestBooking method
 //
-//	// Start of testGetBookingsOfACustomerInAHotel method
-//	private static void testGetBookingsOfACustomerInAHotel() {
-//		try {
-//			List<Object> bookingInfo = HBSCustomerDAO.getBookingsOfACustomerInAHotel(1, 301);
-//			List<Booking> bookings = (List<Booking>) bookingInfo.get(0);
-//			long bookingHotelID = (long) bookingInfo.get(1);
-//			long bookingCustomerID = (long) bookingInfo.get(2);
-//			int index = 0;
-//			System.out.println("Total number of bookings made by the given customer in the specified hotel is: "
-//					+ bookings.size());
-//			System.out.println("----------------------------------");
-//			System.out.println("hotel ID: " + bookingHotelID);
-//			System.out.println("customer ID: " + bookingCustomerID);
-//			System.out.println("----------------------------------");
-//			for (Booking b : bookings) {
-//				index++;
-//				System.out.println("Booking Record " + index);
-//				System.out.println("\t" + "booking id: " + b.getBooking_id());
-//				System.out.println("\t" + "room id: " + b.getRoom().getRoom_id());
-//				System.out.println("\t" + "booking start date: " + b.getBooking_start_date());
-//				System.out.println("\t" + "booking vacate date: " + b.getBooking_vacate_date());
-//				System.out.println("----------------------------------");
-//
-//			}
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//	}
-//	// End of testGetBookingsOfACustomerInAHotel method
+	// Start of testGetBookingsOfACustomerInAHotel method
+	private static void testGetBookingsOfACustomerInAHotel() {
+		try {
+			IHBSCustomerDAO hbsCustomerDAO = HBSCustomerDAOFactory.getHBSCustomerDAO();
+			CustomerDTO customerInfo = hbsCustomerDAO.getBookingsOfACustomerInAHotel(1, 301);
+			List<Booking> bookings = customerInfo.getBookings();
+			Hotel hotel= customerInfo.getHotel();
+			List<Customer> customers = customerInfo.getCustomers();
+			int index = 0;
+			System.out.println("This method prints the total number of bookings made by a given customer in a given hotel");
+			System.out.println("Total number of bookings are: "
+					+ bookings.size());
+			System.out.println("----------------------------------");
+			System.out.println("hotel ID: " + hotel.getHotel_id());
+			for (Customer c : customers) {
+				System.out.println("customer ID: " + c.getCustomer_id());
+			}			
+			System.out.println("----------------------------------");
+			for (Booking booking : bookings) {
+				index++;
+				System.out.println("Booking Record " + index);
+				System.out.println("\t" + "booking id: " + booking.getBooking_id());
+				System.out.println("\t" + "room id: " + booking.getRoom().getRoom_id());
+				System.out.println("\t" + "booking start date: " + booking.getBooking_start_date());
+				System.out.println("\t" + "booking vacate date: " + booking.getBooking_vacate_date());
+				System.out.println("----------------------------------");
+
+			}
+		} catch (SQLException e) {
+			e.getMessage();
+			e.printStackTrace();
+		}
+	}
+	// End of testGetBookingsOfACustomerInAHotel method
 //
 	// Start of testGetHotelWithHighestNumberOfCustomers method
 	private static void testGetHotelWithHighestNumberOfCustomers() {
@@ -166,28 +175,33 @@ public class HBSAppMain {
 	}
 	// End of testGetHotelWithHighestNumberOfCustomers method
 //
-//	// Start of testGetCustomersHavingLaundryServiceInBooking method
-//	private static void testGetCustomersHavingLaundryServiceInBooking() {
-//
-//		try {
-//			List<Customer> customers = HBSCustomerDAO.getCustomersHavingLaundryServiceInBooking(201);
-//			long index = 0;
-//			System.out.println("Total no of customers having laundry service in booking is: " + customers.size());
-//			System.out.println("----------------------------------");
-//			for (Customer c : customers) {
-//				index++;
-//				System.out.println("Customer Record " + index);
-//				System.out.println("\t" + "id: " + c.getCustomer_id());
-//				System.out.println("\t" + "first name: " + c.getCustomer_f_name());
-//				System.out.println("\t" + "last name: " + c.getCustomer_l_name());
-//				System.out.println("----------------------------------");
-//			}
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//
-//	}
-//	// End of testGetCustomersHavingLaundryServiceInBooking method
+	// Start of testGetCustomersHavingLaundryServiceInBooking method
+	private static void testGetCustomersHavingLaundryServiceInBooking() {
+		try {
+			IHBSCustomerDAO hbsCustomerDAO = HBSCustomerDAOFactory.getHBSCustomerDAO();
+			CustomerDTO customerInfo = hbsCustomerDAO.getCustomersHavingLaundryServiceInBooking(201);
+			List<Customer> customers = customerInfo.getCustomers();
+			Service service = customerInfo.getService();
+			int index = 0;
+			System.out.println("This method gives details of customers who have availed laundry service while booking");
+			System.out.println("Service type: " + service.getService_type());
+			System.out.println("Total no of customers are: " + customers.size());
+			System.out.println("----------------------------------");
+			for (Customer c : customers) {
+				index++;
+				System.out.println("Customer Record " + index);
+				System.out.println("\t" + "id: " + c.getCustomer_id());
+				System.out.println("\t" + "first name: " + c.getCustomer_f_name());
+				System.out.println("\t" + "last name: " + c.getCustomer_l_name());
+				System.out.println("----------------------------------");
+			}
+		} catch (SQLException e) {
+			e.getMessage();
+			e.printStackTrace();
+		}
+
+	}
+	// End of testGetCustomersHavingLaundryServiceInBooking method
 //
 //	// Start of testGetEmployeeWithHighestBookingInAHotel method
 //	private static void testGetEmployeeWithHighestBookingInAHotel() {
