@@ -155,7 +155,7 @@ public class Hotel {
 	public void setBookings(List<Booking> bookings) {
 		this.bookings = bookings;
 	}
-
+	
 	@Override
 	public String toString() {
 		return "Hotel [id=" + hotel_id + ", hotel_name=" + hotel_name + ", hotel_type=" + hotel_type + ", hotel_rating="

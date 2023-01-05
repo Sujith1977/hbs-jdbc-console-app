@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.HBS.dto.CustomerDTO;
 import com.HBS.dto.HotelDTO;
 import com.HBS.dto.RoomDTO;
 import com.HBS.entities.Customer;
@@ -24,10 +25,12 @@ public class HBSHotelDAO implements IHBSHotelDAO {
 
 	// Start of getCustomersOfAHotel method
 	@Override
-	public List<Customer> getCustomersOfAHotel(long hotelID) throws SQLException {
+	public CustomerDTO getCustomersOfAHotel(long hotelID) throws SQLException {
 		String getCustomersQuery = "SELECT c.customer_id, c.customer_f_name, c.customer_l_name, c.customer_city, c.customer_state, c.customer_phone_no, c.customer_email_id FROM customer c INNER JOIN hotel_customer hc ON c.customer_id = hc.customer_id WHERE hc.hotel_id = "
 				+ hotelID;
+		CustomerDTO customerDTO = new CustomerDTO();
 		List<Customer> customers = new ArrayList<Customer>();
+		Hotel hotel = new Hotel();
 		Connection connection = null;
 		try {
 			connection = hbsDbConnectionUtil.getConnection();
@@ -81,6 +84,19 @@ public class HBSHotelDAO implements IHBSHotelDAO {
 				}
 				customers.add(customer);
 			}
+			
+			String hotelNameQuery = "SELECT hotel_name FROM hotel WHERE hotel_id = " + hotelID;
+			Statement stmt = connection.createStatement();
+			ResultSet rsHotel = stmt.executeQuery(hotelNameQuery);
+			while (rsHotel.next()) {
+				String hotelName = rsHotel.getString(1);
+				if (!rsHotel.wasNull()) {
+					hotel.setHotel_name(hotelName);
+				}
+			}
+			customerDTO.setCustomers(customers);
+			customerDTO.setHotel(hotel);
+			
 		} catch (SQLTimeoutException e) {
 			e.getMessage();
 			e.printStackTrace();
@@ -93,7 +109,7 @@ public class HBSHotelDAO implements IHBSHotelDAO {
 			connection.close();
 		}
 
-		return customers;
+		return customerDTO;
 
 	} // End of getCustomersOfAHotel method
 

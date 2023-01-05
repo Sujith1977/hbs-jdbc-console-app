@@ -72,9 +72,9 @@ public class HBSCustomerDAO implements IHBSCustomerDAO {
 
 			String getCustomerQuery = "SELECT customer_f_name, customer_l_name FROM Customer WHERE customer_id = "
 					+ customerID;
+			Customer customer = new Customer();
 			ResultSet rsCustomer = statement.executeQuery(getCustomerQuery);
-			while (rsCustomer.next()) {
-				Customer customer = new Customer();
+			if (rsCustomer.next()) {
 				customer.setCustomer_id(customerID);
 				String customerFirstName = rsCustomer.getString(1);
 				if (!rsCustomer.wasNull()) {
@@ -88,8 +88,12 @@ public class HBSCustomerDAO implements IHBSCustomerDAO {
 				} else {
 					customer.setCustomer_l_name(" ");
 				}
-				customers.add(customer);
+				
+			} else {
+				customer.setCustomer_id(0);
 			}
+			
+			customers.add(customer);
 
 			customerDTO.setBookings(bookings);
 			customerDTO.setHotel(hotel);
