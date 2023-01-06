@@ -70,6 +70,7 @@ CREATE TABLE customer (
 );
 
 alter table customer AUTO_INCREMENT=301;
+select * from customer;
 
 insert into customer (customer_f_name, customer_l_name, customer_city, customer_state, customer_phone_no, customer_email_id) values 
 ('sujith', 'kumar', 'kochi', 'kerala', '9446024292', 'suj@gmail.com'),
